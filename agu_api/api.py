@@ -10,7 +10,7 @@ class AguApi:
         response = requests.get(f"{self.api}/{name}", params=params)
         return response.json()
 
-    def timetable(self, sday=None, time_interval=None, type=None, value=None):
+    def timetable(self, sday, time_interval, type, value):
         params = {'sday': sday, 'time_interval': time_interval, 'type': type, 'value': value}
         return self.method('timetable', **params)
 
