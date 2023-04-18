@@ -1,1 +1,3 @@
 /*.env
+/secret.json
+/db.sqlite3

@@ -1,1 +1,1 @@
-from .api import GoogleCalendar
+from .api import GoogleCalendar, AguGoogleCalendar

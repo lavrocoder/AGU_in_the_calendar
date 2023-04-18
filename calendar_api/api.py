@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 
@@ -53,3 +55,35 @@ class GoogleCalendar:
 
     def get_colors(self):
         return self.service.colors().get().execute()
+
+
+class AguGoogleCalendar(GoogleCalendar):
+    def add_lesson(self, calendar_id: str, time_begin: datetime, time_end: datetime, audience: str, groups: list[str],
+                   name: str, discipline_name: str, teacher_name: str, distant: bool = False):
+        time_begin = time_begin.strftime("%Y-%m-%dT%H:%M:%S")
+        time_end = time_end.strftime("%Y-%m-%dT%H:%M:%S")
+
+        description = f"{name}\n" \
+                      f"Группы:\n"
+        for i, group in enumerate(groups):
+            description += f"{i + 1}. {group}\n"
+
+        description += f"{teacher_name}"
+
+        event = {
+            'summary': discipline_name,
+            'location': audience,
+            'description': description,
+            'start': {
+                'dateTime': time_begin,
+                'timeZone': 'Asia/Novosibirsk',
+            },
+            'end': {
+                'dateTime': time_end,
+                'timeZone': 'Asia/Novosibirsk',
+            },
+            # 'colorId': '9'
+        }
+
+        event = self.add_event(calendar_id=calendar_id, event=event)
+        return event
