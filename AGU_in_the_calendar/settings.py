@@ -17,9 +17,9 @@ from dotenv import load_dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-GOOGLE_SECRET_FILE_PATH = os.path.join(BASE_DIR, "secret.json")
+GOOGLE_SECRET_FILE_PATH = os.path.join(BASE_DIR, "config/secret.json")
 
-DOTENV_PATH = os.path.join(BASE_DIR, "vars.env")
+DOTENV_PATH = os.path.join(BASE_DIR, "config/vars.env")
 if os.path.exists(DOTENV_PATH):
     load_dotenv(DOTENV_PATH)
 
