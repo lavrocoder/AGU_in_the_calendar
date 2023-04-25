@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Literal
 
 import requests
 
@@ -40,11 +41,20 @@ class Agu(AguApi):
             groups.append(group)
         return groups
 
-    def get_timetable_for_group_for_month(self, group_id: str, date: datetime = None) -> list[Lesson]:
+    def get_lessons(self, lesson_type: Literal[1, 2, 3], value: str, time_interval: Literal[1, 2, 3],
+                    date: datetime = None) -> list[Lesson]:
+        """
+        Получает расписание.
+        :param lesson_type: Тип расписания (1 - для преподавателей, 2 - для аудитории, 3 - для студентов).
+        :param value:
+        :param time_interval: Интервал (1 - день, 2 - неделя, 3 - месяц).
+        :param date: Идентификатор преподавателя, аудитории или группы.
+        :return: Список пар.
+        """
         if date is None:
             date = datetime.now()
         date = date.strftime("%d.%m.%y")
-        time_table = self.timetable(date, 3, 3, group_id)
+        time_table = self.timetable(date, time_interval, lesson_type, value)
         lessons = []
         for date, data in time_table.items():
             for lesson_number, lesson in data.items():
@@ -64,4 +74,8 @@ class Agu(AguApi):
                     }
                     lesson = Lesson.parse_obj(lesson)
                     lessons.append(lesson)
+        return lessons
+
+    def get_timetable_for_group_for_month(self, group_id: str, date: datetime = None) -> list[Lesson]:
+        lessons = self.get_lessons(3, group_id, 3, date)
         return lessons
