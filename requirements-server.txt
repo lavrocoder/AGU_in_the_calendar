@@ -5,3 +5,5 @@ google-api-python-client
 loguru
 pydantic
 gunicorn
+icalendar
+pytz

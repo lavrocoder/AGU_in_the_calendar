@@ -5,7 +5,7 @@ from typing import List
 from pydantic import BaseModel
 
 
-class Group(BaseModel):
+class IdSname(BaseModel):
     ID: str
     SNAME: str
 
@@ -16,9 +16,9 @@ class Lesson(BaseModel):
     time_end: datetime
     audience: str
     groups: List[str]
-    name: str
-    discipline_name: str
-    teacher_name: str
+    name: str | None
+    discipline_name: str | None
+    teacher_name: str | None
     distant: bool = False
 
     def hash(self) -> str:
